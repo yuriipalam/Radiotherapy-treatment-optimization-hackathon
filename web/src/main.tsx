@@ -9,11 +9,18 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout />,
+    children: [
+      {
+        path: "/",
+        element: <App />,
+        index: true,
+      },
+    ],
   },
-  {
-    path: "/contacts/:id",
-    element: <App />,
-  }
+  // {
+  //   path: "/contacts/:id",
+  //   element: <App />,
+  // }
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
