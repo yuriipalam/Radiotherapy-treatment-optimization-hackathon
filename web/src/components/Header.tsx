@@ -20,10 +20,10 @@ export default function Header() {
     <>
       <div className="container flex justify-between items-center gap-2 space-x-4 lg:space-x-6 p-4">
         <div className="flex gap-4 items-center">
-          <img width={100} src="@/../public/siemens-logo.png" alt="Logo" />
+          <img width={100} src="/siemens-logo.png" alt="Logo" />
           <nav className="flex gap-4">
             <Link
-              to="/dashboard"
+              to="/"
               className="text-sm text-slate-800 font-medium transition-colors hover:text-primary"
             >
               Dashboard
@@ -46,7 +46,7 @@ export default function Header() {
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="relative h-8 w-8 rounded-full">
               <Avatar className="h-8 w-8">
-                <AvatarImage className="top-0.5 relative" src="@/../public/avatar.svg" alt="@shadcn" />
+                <AvatarImage className="top-0.5 relative" src="/avatar.svg" alt="@shadcn" />
                 <AvatarFallback>GH</AvatarFallback>
               </Avatar>
             </Button>
