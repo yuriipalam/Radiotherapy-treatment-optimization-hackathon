@@ -9,9 +9,15 @@ import {
 import { Button } from "@/components/ui/button.tsx";
 import { CopyIcon, DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { Calendar, CheckCircle } from "lucide-react";
-import { EditPatientDataPopup } from "@/components/PatientsTable/EditPatientDataPopup.tsx";
+import { EditPatientDataPopup } from "@/components/Patients/EditPatientDataPopup.tsx";
 
-export function PatientDropdownMenu() {
+import {Patient} from "@/store/patients.ts";
+
+interface Props {
+  patient: Patient;
+}
+
+export function PatientDropdownMenu(props: Props) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="mt-2.5" asChild>
@@ -23,7 +29,7 @@ export function PatientDropdownMenu() {
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>Actions: </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <EditPatientDataPopup />
+        <EditPatientDataPopup patient={props.patient} />
         <DropdownMenuSeparator />
         <DropdownMenuItem className="cursor-pointer">
           Copy patient TAJ
