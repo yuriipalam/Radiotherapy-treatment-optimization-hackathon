@@ -8,6 +8,7 @@ export interface Patient {
   height: number;
   inpatient: boolean;
   sessionsLeft: number;
+  finished?: boolean;
 }
 
 const initialPatients: Patient[] = [

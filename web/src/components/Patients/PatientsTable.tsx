@@ -7,7 +7,7 @@ import {
   TableRow,
 } from "../ui/table.tsx";
 import { Command, CommandInput } from "@/components/ui/command.tsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Checkbox } from "@/components/ui/checkbox.tsx";
 import { PatientDropdownMenu } from "@/components/Patients/PatientDropdownMenu.tsx";
 import { AddPatientDialog } from "@/components/Patients/AddPatientDialog.tsx";
@@ -17,6 +17,24 @@ export const PatientsTable = () => {
   const [search, setSearch] = useState("");
   console.log(search);
   const patients = usePatientsStore((state) => state.patients);
+  const [patientsSearched, setPatientsSearched] = useState(patients);
+
+  useEffect(() => {
+    if (search === "") {
+      setPatientsSearched(patients);
+    } else {
+      setPatientsSearched(
+        patients.filter((patient) =>
+          patient.fullname.toLowerCase().includes(search.toLowerCase()),
+        ),
+      );
+    }
+  }, [search]);
+
+  useEffect(() => {
+    setSearch("");
+    setPatientsSearched(patients);
+  }, [patients]);
 
   return (
     <div className="w-4/5 mx-auto">
@@ -44,22 +62,35 @@ export const PatientsTable = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-            {patients.map((patient) => (
-              <TableRow>
+          {patientsSearched.map((patient) => (
+            <TableRow
+              key={patient.tajNumber}
+              className={patient.finished ? "opacity-50" : ""}
+            >
+              {!patient.finished ? (
                 <TableCell className="font-medium" key={patient.tajNumber}>
                   <Checkbox className="" />
                 </TableCell>
-                <TableCell>{patient.tajNumber}</TableCell>
-                <TableCell>{patient.fullname}</TableCell>
-                <TableCell>{patient.birthDate}</TableCell>
-                <TableCell>{patient.weight}</TableCell>
-                <TableCell>{patient.height}</TableCell>
-                <TableCell>{patient.region}</TableCell>
-                <TableCell>{patient.inpatient ? "Yes" : "No"}</TableCell>
-                <TableCell>{patient.sessionsLeft}</TableCell>
-                <PatientDropdownMenu patient={patient} />
-              </TableRow>
-            ))}
+              ) : (
+                <TableCell />
+              )}
+              <TableCell>{patient.tajNumber}</TableCell>
+              <TableCell>{patient.fullname}</TableCell>
+              <TableCell>{patient.birthDate}</TableCell>
+              <TableCell>{patient.weight}</TableCell>
+              <TableCell>{patient.height}</TableCell>
+              <TableCell>{patient.region}</TableCell>
+              <TableCell>{patient.inpatient ? "Yes" : "No"}</TableCell>
+              <TableCell>{patient.sessionsLeft}</TableCell>
+              {!patient.finished ? (
+                <TableCell>
+                  <PatientDropdownMenu patient={patient} />
+                </TableCell>
+              ) : (
+                <TableCell />
+              )}
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
     </div>
