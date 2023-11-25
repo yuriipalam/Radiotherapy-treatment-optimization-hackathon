@@ -4,13 +4,12 @@ import {
   Popup,
   Button,
   Input,
-  Textarea,
-  Switch,
   Datepicker,
   SegmentedGroup,
   SegmentedItem,
   MbscCalendarEvent,
-  MbscEventcalendarView, setOptions,
+  MbscEventcalendarView,
+  setOptions,
 } from "@mobiscroll/react";
 import "@mobiscroll/react/dist/css/mobiscroll.min.css";
 import React from "react";
@@ -26,8 +25,8 @@ const responsivePopup = {
 };
 
 setOptions({
-  theme: 'ios',
-  themeVariant: 'light'
+  theme: "ios",
+  themeVariant: "light",
 });
 
 const now = new Date();
@@ -38,31 +37,31 @@ const defaultEvents = [
   {
     start: new Date(now.getFullYear(), now.getMonth(), monday + 1, 11),
     end: new Date(now.getFullYear(), now.getMonth(), monday + 1, 12, 30),
-    title: "Product team mtg.",
+    title: "John Doe",
     resource: 1,
   },
   {
     start: new Date(now.getFullYear(), now.getMonth(), monday + 3, 15),
     end: new Date(now.getFullYear(), now.getMonth(), monday + 3, 17),
-    title: "Decision Making mtg.",
+    title: "Henry Smith",
     resource: 1,
   },
   {
     start: new Date(now.getFullYear(), now.getMonth(), monday + 2, 12),
     end: new Date(now.getFullYear(), now.getMonth(), monday + 2, 15, 30),
-    title: "Shaping the Future",
+    title: "Viktor Nagy",
     resource: 2,
   },
   {
     start: new Date(now.getFullYear(), now.getMonth(), monday + 3, 9),
     end: new Date(now.getFullYear(), now.getMonth(), monday + 3, 12),
-    title: "Innovation mtg.",
+    title: "Alexandra Molnar",
     resource: 3,
   },
   {
     start: new Date(now.getFullYear(), now.getMonth(), monday + 3, 11),
     end: new Date(now.getFullYear(), now.getMonth(), monday + 3, 16),
-    title: "Decision Making mtg.",
+    title: "Peter Kovacs",
     resource: 4,
   },
   {
@@ -78,11 +77,11 @@ export default function Calendar() {
     return {
       schedule: {
         type: "week",
-        allDay: false,
         startDay: 1,
         endDay: 5,
         startTime: "08:00",
         endTime: "20:00",
+        allDay: false,
       },
     };
   }, []);
@@ -126,20 +125,25 @@ export default function Calendar() {
   const [anchor, setAnchor] = React.useState<any>(null);
   const [start, startRef] = React.useState<any>(null);
   const [end, endRef] = React.useState<any>(null);
-  const [popupEventTitle, setTitle] = React.useState<string | undefined>("");
-  const [popupEventDescription, setDescription] = React.useState<string>("");
-  const [popupEventAllDay, setAllDay] = React.useState<boolean>(true);
+
+  const [popupEventFullname, setFullname] = React.useState<string | undefined>(
+    "",
+  );
+  const [popupEventTajNumber, setTajNumber] = React.useState<string>("");
+  const [popupEventRegion, setRegion] = React.useState<string>("");
+
   const [popupEventDate, setDate] = React.useState<any>([]);
-  const [popupEventStatus, setStatus] = React.useState<string>("busy");
+  const [popupEventStatus, setStatus] = React.useState<string>("notify");
   const [mySelectedDate, setSelectedDate] = React.useState<any>(new Date());
   const saveEvent = React.useCallback<any>(() => {
     const newEvent = {
       id: tempEvent.id,
-      title: popupEventTitle,
-      description: popupEventDescription,
+      title: popupEventFullname,
+      tajNumber: popupEventTajNumber,
+      region: popupEventRegion,
       start: popupEventDate[0],
+      allDay: false,
       end: popupEventDate[1],
-      allDay: popupEventAllDay,
       status: popupEventStatus,
       resource: tempEvent.resource,
     };
@@ -153,7 +157,6 @@ export default function Calendar() {
       // here you can update the event in your storage as well
       // ...
     } else {
-      console.log("new event", newEvent);
       // add the new event to the list
       setMyEvents([...myEvents, newEvent]);
       // here you can add the event to your storage as well
@@ -165,13 +168,12 @@ export default function Calendar() {
   }, [
     isEdit,
     myEvents,
-    popupEventAllDay,
     popupEventDate,
-    popupEventDescription,
+    popupEventFullname,
+    popupEventRegion,
+    popupEventRegion,
     popupEventStatus,
-    popupEventTitle,
     tempEvent,
-    // popupResource
   ]);
 
   const deleteEvent = React.useCallback(
@@ -186,7 +188,7 @@ export default function Calendar() {
             },
             text: "Undo",
           },
-          message: "Event deleted",
+          message: "Appointment deleted",
         });
       });
     },
@@ -194,25 +196,25 @@ export default function Calendar() {
   );
 
   const loadPopupForm = React.useCallback((event: MbscCalendarEvent) => {
-    setTitle(event.title);
-    setDescription(event.description);
+    setFullname(event.title);
+    setTajNumber(event.tajNumber);
+    setRegion(event.region);
     setDate([event.start, event.end]);
-    setAllDay(event.allDay || false);
-    setStatus(event.status || "busy");
+    setStatus(event.status || "notify");
   }, []);
 
   // handle popup form changes
 
-  const titleChange = React.useCallback<any>((ev: any) => {
-    setTitle(ev.target.value);
+  const fullnameChange = React.useCallback<any>((ev: any) => {
+    setFullname(ev.target.value);
   }, []);
 
-  const descriptionChange = React.useCallback<any>((ev: any) => {
-    setDescription(ev.target.value);
+  const tajNumberChange = React.useCallback<any>((ev: any) => {
+    setTajNumber(ev.target.value);
   }, []);
 
-  const allDayChange = React.useCallback<any>((ev: any) => {
-    setAllDay(ev.target.checked);
+  const regionChange = React.useCallback<any>((ev: any) => {
+    setRegion(ev.target.value);
   }, []);
 
   const dateChange = React.useCallback<any>((args: any) => {
@@ -272,31 +274,18 @@ export default function Calendar() {
   }, []);
 
   // datepicker options
-  const controls = React.useMemo<any>(
-    () => (popupEventAllDay ? ["date"] : ["datetime"]),
-    [popupEventAllDay],
-  );
+  const controls = React.useMemo<any>(() => ["datetime"], []);
+
   const headerText = React.useMemo<string>(
-    () => (isEdit ? "Edit event" : "New Event"),
+    () => (isEdit ? "Edit appointment" : "New appointment"),
     [isEdit],
   );
-  const respSetting = React.useMemo<any>(
-    () =>
-      popupEventAllDay
-        ? {
-            medium: {
-              controls: ["calendar"],
-              touchUi: false,
-            },
-          }
-        : {
-            medium: {
-              controls: ["calendar", "time"],
-              touchUi: false,
-            },
-          },
-    [popupEventAllDay],
-  );
+  const respSetting = {
+    medium: {
+      controls: ["calendar", "time"],
+      touchUi: false,
+    },
+  };
   const popupButtons = React.useMemo<any>(() => {
     if (isEdit) {
       return [
@@ -333,6 +322,12 @@ export default function Calendar() {
     setOpen(false);
   }, [isEdit, myEvents]);
 
+  function newEventData() {
+    return {
+      title: "New appointment",
+    };
+  }
+
   return (
     <div>
       <Eventcalendar
@@ -349,6 +344,7 @@ export default function Calendar() {
         onEventCreated={onEventCreated}
         onEventDeleted={onEventDeleted}
         onEventUpdated={onEventUpdated}
+        extendDefaultEvent={newEventData}
       />
       <Popup
         display="bottom"
@@ -362,19 +358,25 @@ export default function Calendar() {
         responsive={responsivePopup}
       >
         <div className="mbsc-form-group">
-          <Input label="Title" value={popupEventTitle} onChange={titleChange} />
-          <Textarea
-            label="Description"
-            value={popupEventDescription}
-            onChange={descriptionChange}
+          <Input
+            label="Full name"
+            value={
+              popupEventFullname === "New appointment" ? "" : popupEventFullname
+            }
+            onChange={fullnameChange}
+          />
+          <Input
+            label="Taj Number"
+            value={popupEventTajNumber}
+            onChange={tajNumberChange}
+          />
+          <Input
+            label="Region"
+            value={popupEventRegion}
+            onChange={regionChange}
           />
         </div>
         <div className="mbsc-form-group">
-          <Switch
-            label="All-day"
-            checked={popupEventAllDay}
-            onChange={allDayChange}
-          />
           <Input ref={startRef} label="Starts" />
           <Input ref={endRef} label="Ends" />
           <Datepicker
@@ -389,11 +391,17 @@ export default function Calendar() {
             value={popupEventDate}
           />
           <SegmentedGroup onChange={statusChange}>
-            <SegmentedItem value="busy" checked={popupEventStatus === "busy"}>
-              Show as busy
+            <SegmentedItem
+              value="notify"
+              checked={popupEventStatus === "notify"}
+            >
+              Notify patient
             </SegmentedItem>
-            <SegmentedItem value="free" checked={popupEventStatus === "free"}>
-              Show as free
+            <SegmentedItem
+              value="dont-notify"
+              checked={popupEventStatus === "dont-notify"}
+            >
+              Don't notify
             </SegmentedItem>
           </SegmentedGroup>
           {isEdit && (
@@ -404,7 +412,7 @@ export default function Calendar() {
                 variant="outline"
                 onClick={onDeleteClick}
               >
-                Delete event
+                Delete appointment
               </Button>
             </div>
           )}
