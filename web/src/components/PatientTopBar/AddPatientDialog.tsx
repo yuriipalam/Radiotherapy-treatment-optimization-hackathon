@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button.tsx";
 import {
   Dialog,
   DialogContent,
@@ -7,9 +7,10 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+} from "@/components/ui/dialog.tsx";
+import { Input } from "@/components/ui/input.tsx";
+import { Label } from "@/components/ui/label.tsx";
+import { Checkbox } from "@/components/ui/checkbox";
 
 export function AddPatientDialog() {
   return (
@@ -42,7 +43,7 @@ export function AddPatientDialog() {
               className="col-span-1 h-8"
             />
           </div>
-          <div className="grid grid-cols-2 items-center gap-4">
+          <div className="grid grid-cols-2 mb-4 items-center gap-4">
             <Label htmlFor="region">Region of treatment:</Label>
             <Input
               id="region"
@@ -50,6 +51,24 @@ export function AddPatientDialog() {
               defaultValue="Breast"
               className="col-span-1 h-8"
             />
+          </div>
+          <div className="flex items-center space-x-2">
+            <Checkbox id="inpatient" />
+            <label
+              htmlFor="inpatient"
+              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              Inpatient treatment
+            </label>
+          </div>
+          <div className="flex items-center space-x-2">
+            <Checkbox id="Overweight" />
+            <label
+              htmlFor="Overweight"
+              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              Overweight
+            </label>
           </div>
         </div>
         <DialogFooter>

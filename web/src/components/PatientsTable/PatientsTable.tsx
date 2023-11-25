@@ -11,7 +11,7 @@ import { Command, CommandInput } from "@/components/ui/command.tsx";
 import { useState } from "react";
 import { Checkbox } from "@/components/ui/checkbox.tsx";
 import { PatientDropdownMenu } from "@/components/PatientsTable/PatientDropdownMenu.tsx";
-import { AddPatientDialog } from "@/components/PatientsTable/AddPatientDialog.tsx";
+import { AddPatientDialog } from "@/components/PatientTopBar/AddPatientDialog.tsx";
 
 export const PatientsTable = () => {
   const [search, setSearch] = useState("");
@@ -35,11 +35,12 @@ export const PatientsTable = () => {
             <TableHead className="w-[50px]">Select</TableHead>
             <TableHead className="w-[100px]">TAJ</TableHead>
             <TableHead>Full name</TableHead>
-            <TableHead>Organ</TableHead>
+            <TableHead>Region</TableHead>
             <TableHead>Birth date</TableHead>
             <TableHead>Weight</TableHead>
             <TableHead>Height</TableHead>
-            <TableHead className="text-right">Priority</TableHead>
+            <TableHead>Inpatient</TableHead>
+            <TableHead>Sessions left</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -53,7 +54,8 @@ export const PatientsTable = () => {
             <TableCell>1962.04.01</TableCell>
             <TableCell>130 kg</TableCell>
             <TableCell>190 cm</TableCell>
-            <TableCell className="text-right">Height</TableCell>
+            <TableCell>Yes</TableCell>
+            <TableCell>12</TableCell>
             <PatientDropdownMenu />
           </TableRow>
         </TableBody>

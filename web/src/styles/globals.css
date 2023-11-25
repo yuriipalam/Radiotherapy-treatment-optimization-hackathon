@@ -61,5 +61,6 @@
 }
 
 main {
+    margin-top: 72px;
     @apply p-4;
 }
