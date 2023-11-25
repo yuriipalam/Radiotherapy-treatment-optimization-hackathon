@@ -6,6 +6,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import RootLayout from "@/layout.tsx";
 import Patients from "@/pages/Patients.tsx";
 import Appointments from "@/modules/Appointments/Appointments.tsx";
+import { Login } from "@/pages/Login.tsx";
 
 const router = createBrowserRouter([
   {
@@ -25,8 +26,11 @@ const router = createBrowserRouter([
         path: "/appointments",
         element: <Appointments />,
       },
+      {
+        path: "login",
+        element: <Login />,
+      },
     ],
-
   },
   // {
   //   path: "/contacts/:id",
