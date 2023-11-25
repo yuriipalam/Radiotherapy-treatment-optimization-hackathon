@@ -23,10 +23,10 @@ export default function Header() {
           <img width={100} src="@/../public/siemens-logo.png" alt="Logo" />
           <nav className="flex gap-4">
             <Link
-              to="/dashboard"
+              to="/patients"
               className="text-sm text-slate-800 font-medium transition-colors hover:text-primary"
             >
-              Dashboard
+              Patients
             </Link>
             <Link
               to="/appointments"
