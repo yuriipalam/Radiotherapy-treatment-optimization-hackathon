@@ -4,6 +4,7 @@ import App from "./App.tsx";
 import "@/styles/globals.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import RootLayout from "@/layout.tsx";
+import Patients from "@/pages/Patients.tsx";
 import Appointments from "@/modules/Appointments/Appointments.tsx";
 
 const router = createBrowserRouter([
@@ -17,10 +18,15 @@ const router = createBrowserRouter([
         index: true,
       },
       {
+        path: "/patients",
+        element: <Patients />,
+      },
+      {
         path: "/appointments",
         element: <Appointments />,
       },
     ],
+
   },
   // {
   //   path: "/contacts/:id",
