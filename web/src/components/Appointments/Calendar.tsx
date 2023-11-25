@@ -38,37 +38,37 @@ const defaultEvents = [
     start: new Date(now.getFullYear(), now.getMonth(), monday + 1, 11),
     end: new Date(now.getFullYear(), now.getMonth(), monday + 1, 12, 30),
     title: "John Doe",
-    resource: 1,
+    resource: "TB1",
   },
   {
     start: new Date(now.getFullYear(), now.getMonth(), monday + 3, 15),
     end: new Date(now.getFullYear(), now.getMonth(), monday + 3, 17),
     title: "Henry Smith",
-    resource: 1,
+    resource: "TB2",
   },
   {
     start: new Date(now.getFullYear(), now.getMonth(), monday + 2, 12),
     end: new Date(now.getFullYear(), now.getMonth(), monday + 2, 15, 30),
     title: "Viktor Nagy",
-    resource: 2,
+    resource: "VB1",
   },
   {
     start: new Date(now.getFullYear(), now.getMonth(), monday + 3, 9),
     end: new Date(now.getFullYear(), now.getMonth(), monday + 3, 12),
     title: "Alexandra Molnar",
-    resource: 3,
+    resource: "VB2",
   },
   {
     start: new Date(now.getFullYear(), now.getMonth(), monday + 3, 11),
     end: new Date(now.getFullYear(), now.getMonth(), monday + 3, 16),
     title: "Peter Kovacs",
-    resource: 4,
+    resource: "U",
   },
   {
     start: new Date(now.getFullYear(), now.getMonth(), monday + 3, 11),
     end: new Date(now.getFullYear(), now.getMonth(), monday + 3, 13),
     title: "Stakeholder mtg.",
-    resource: 5,
+    resource: "TB2",
   },
 ];
 
@@ -89,27 +89,27 @@ export default function Calendar() {
   const myResources = React.useMemo<MbscResource[]>(() => {
     return [
       {
-        id: 1,
+        id: "TB1",
         name: "TB1",
         color: "#f7c4b4",
       },
       {
-        id: 2,
+        id: "TB2",
         name: "TB2",
         color: "#c6f1c9",
       },
       {
-        id: 3,
+        id: "VB1",
         name: "VB1",
         color: "#e8d0ef",
       },
       {
-        id: 4,
+        id: "VB2",
         name: "VB2",
         color: "#edeaba",
       },
       {
-        id: 5,
+        id: "U",
         name: "U",
         color: "#bacded",
       },
