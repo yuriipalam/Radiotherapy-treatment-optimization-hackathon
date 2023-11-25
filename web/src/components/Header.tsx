@@ -39,12 +39,12 @@ export default function Header() {
             >
               Appointments
             </Link>
-            <Link
-              to="/search"
-              className="text-sm text-slate-800 font-medium transition-colors hover:text-primary"
-            >
-              Search
-            </Link>
+            {/*<Link*/}
+            {/*  to="/search"*/}
+            {/*  className="text-sm text-slate-800 font-medium transition-colors hover:text-primary"*/}
+            {/*>*/}
+            {/*  Search*/}
+            {/*</Link>*/}
           </nav>
         </div>
         <DropdownMenu>

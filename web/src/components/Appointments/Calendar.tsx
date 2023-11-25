@@ -90,27 +90,27 @@ export default function Calendar() {
     return [
       {
         id: "TB1",
-        name: "TB1",
+        name: "TrueBeam 1 (TB1)",
         color: "#f7c4b4",
       },
       {
         id: "TB2",
-        name: "TB2",
+        name: "TrueBeam 2 (TB2)",
         color: "#c6f1c9",
       },
       {
         id: "VB1",
-        name: "VB1",
+        name: "VitalBeam 1 (VB1)",
         color: "#e8d0ef",
       },
       {
         id: "VB2",
-        name: "VB2",
+        name: "VitalBeam 2 (VB2)",
         color: "#edeaba",
       },
       {
         id: "U",
-        name: "U",
+        name: "Unique",
         color: "#bacded",
       },
     ];
@@ -268,7 +268,7 @@ export default function Calendar() {
     [deleteEvent],
   );
 
-  const onEventUpdated = React.useCallback<any>((event: any) => {
+  const onEventUpdated = React.useCallback<any>(() => {
     // here you can update the event in your storage as well, after drag & drop or resize
     // ...
   }, []);

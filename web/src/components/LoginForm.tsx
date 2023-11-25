@@ -28,7 +28,7 @@ export function LoginForm({ className, ...props }: UserAuthFormProps) {
     <div className={cn("grid ", className)} {...props}>
       <div className="flex flex-col gap-11">
         <div className="items-center w-80 gap-3">
-          <h1 className="text-2xl font-bold">Welcome back dear doctor</h1>
+          <h1 className="text-2xl font-bold">Dear Doctor, Welcome back</h1>
           <div className="flex items-center gap-2">
             <img src="@/../public/heartbeat.svg" alt="heartbeat" />
             Thank you for your work and helping us to save lives!
@@ -42,8 +42,10 @@ export function LoginForm({ className, ...props }: UserAuthFormProps) {
               </Label>
               <Input
                 id="login"
-                placeholder="Doctor id"
+                placeholder="Doctor ID"
+                defaultValue="thebestdoctor@gmail.com"
                 type="email"
+                required
                 autoCapitalize="none"
                 autoComplete="email"
                 autoCorrect="off"
@@ -56,8 +58,10 @@ export function LoginForm({ className, ...props }: UserAuthFormProps) {
               </Label>
               <Input
                 id="Password"
-                placeholder="password"
+                placeholder="Password"
                 type="password"
+                defaultValue="password"
+                required
                 autoCapitalize="none"
                 autoComplete="email"
                 autoCorrect="off"
