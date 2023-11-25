@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,11 +16,16 @@ import {
 } from "@/components/ui/avatar.tsx";
 
 export default function Header() {
+  const location = useLocation();
+  const isLoginPage = location.pathname === "/login";
+
   return (
     <div className="fixed z-50 right-0 top-0 left-0 shadow">
       <div className="container  bg-white  flex justify-between items-center gap-2 space-x-4 lg:space-x-6 py-2 px-4">
         <div className="flex gap-4 items-center">
-          <img width={100} src="/siemens-logo.png" alt="Logo" />
+          <Link to="/">
+            <img width={100} src="/siemens-logo.png" alt="Logo" />
+          </Link>
           <nav className="flex gap-4">
             <Link
               to="/patients"
@@ -46,7 +51,10 @@ export default function Header() {
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="relative h-10 w-10 rounded-full">
               <Avatar className="h-10 w-10">
-                <AvatarImage src="/avatar.svg" alt="@shadcn" />
+                <AvatarImage
+                  src={isLoginPage ? "/avatar-placeholder.svg" : "/avatar.svg"}
+                  alt="@shadcn"
+                />
                 <AvatarFallback>GH</AvatarFallback>
               </Avatar>
             </Button>
