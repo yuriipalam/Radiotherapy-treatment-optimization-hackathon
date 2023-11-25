@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button.tsx";
 import { Input } from "@/components/ui/input.tsx";
 import { Label } from "@/components/ui/label.tsx";
+import { Switch } from "@/components/ui/switch.tsx";
 import {
   Popover,
   PopoverContent,
@@ -46,12 +47,18 @@ export function EditPatientDataPopup() {
               />
             </div>
             <div className="grid grid-cols-3 items-center gap-4">
+              <Label className="grid-cols-1" htmlFor="airplane-mode">
+                Inpatient
+              </Label>
+              <Switch id="airplane-mode" />
+            </div>
+            <div className="grid grid-cols-2 items-center gap-4">
               <Label htmlFor="maxHeight">Test</Label>
               <Input
                 onInput={(event) => console.log(event.currentTarget.value)}
                 id="maxHeight"
                 defaultValue="none"
-                className="col-span-2 h-8"
+                className="col-span-1 h-8"
               />
             </div>
           </div>

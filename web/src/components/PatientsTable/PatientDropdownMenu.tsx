@@ -7,8 +7,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu.tsx";
 import { Button } from "@/components/ui/button.tsx";
-import { DotsHorizontalIcon } from "@radix-ui/react-icons";
-import { Calendar } from "lucide-react";
+import { CopyIcon, DotsHorizontalIcon } from "@radix-ui/react-icons";
+import { Calendar, CheckCircle } from "lucide-react";
 import { EditPatientDataPopup } from "@/components/PatientsTable/EditPatientDataPopup.tsx";
 
 export function PatientDropdownMenu() {
@@ -27,10 +27,15 @@ export function PatientDropdownMenu() {
         <DropdownMenuSeparator />
         <DropdownMenuItem className="cursor-pointer">
           Copy patient TAJ
+          <CopyIcon className="h-4 ml-3"></CopyIcon>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem className="cursor-pointer">
           Show calendar <Calendar className="h-4 ml-1"></Calendar>
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem className="cursor-pointer">
+          Mark as finished <CheckCircle className="h-4 ml-1"></CheckCircle>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
       </DropdownMenuContent>

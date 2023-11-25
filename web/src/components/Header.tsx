@@ -18,7 +18,7 @@ import {
 export default function Header() {
   return (
     <>
-      <div className="container flex justify-between items-center gap-2 space-x-4 lg:space-x-6 p-4">
+      <div className="container fixed z-50 bg-white shadow flex justify-between items-center gap-2 space-x-4 lg:space-x-6 py-2 px-4">
         <div className="flex gap-4 items-center">
           <img width={100} src="/siemens-logo.png" alt="Logo" />
           <nav className="flex gap-4">
@@ -44,9 +44,9 @@ export default function Header() {
         </div>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-              <Avatar className="h-8 w-8">
-                <AvatarImage className="top-0.5 relative" src="/avatar.svg" alt="@shadcn" />
+            <Button variant="ghost" className="relative h-10 w-10 rounded-full">
+              <Avatar className="h-10 w-10">
+                <AvatarImage src="/avatar.svg" alt="@shadcn" />
                 <AvatarFallback>GH</AvatarFallback>
               </Avatar>
             </Button>
@@ -62,17 +62,11 @@ export default function Header() {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                Profile
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                Settings
-              </DropdownMenuItem>
+              <DropdownMenuItem>Profile</DropdownMenuItem>
+              <DropdownMenuItem>Settings</DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              Log out
-            </DropdownMenuItem>
+            <DropdownMenuItem>Log out</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
