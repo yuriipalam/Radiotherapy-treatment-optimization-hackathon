@@ -91,27 +91,27 @@ export default function Calendar() {
     return [
       {
         id: 1,
-        name: "Flatiron Room",
+        name: "TB1",
         color: "#f7c4b4",
       },
       {
         id: 2,
-        name: "The Capital City (locked)",
+        name: "TB2",
         color: "#c6f1c9",
       },
       {
         id: 3,
-        name: "Heroes Square",
+        name: "VB1",
         color: "#e8d0ef",
       },
       {
         id: 4,
-        name: "Thunderdome",
+        name: "VB2",
         color: "#edeaba",
       },
       {
         id: 5,
-        name: "King’s Landing",
+        name: "U",
         color: "#bacded",
       },
     ];
