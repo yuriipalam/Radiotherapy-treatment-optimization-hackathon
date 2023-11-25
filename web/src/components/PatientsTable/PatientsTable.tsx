@@ -53,7 +53,9 @@ export const PatientsTable = () => {
             <TableCell className="font-medium">Brain</TableCell>
             <TableCell>Yes</TableCell>
             <TableCell>12</TableCell>
-            <PatientDropdownMenu />
+            <TableCell>
+              <PatientDropdownMenu />
+            </TableCell>
           </TableRow>
         </TableBody>
       </Table>

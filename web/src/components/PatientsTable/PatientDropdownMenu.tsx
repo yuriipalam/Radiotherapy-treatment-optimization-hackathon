@@ -27,7 +27,7 @@ export function PatientDropdownMenu() {
         <DropdownMenuSeparator />
         <DropdownMenuItem className="cursor-pointer">
           Copy patient TAJ
-          <CopyIcon className="h-4 ml-3"></CopyIcon>
+          <CopyIcon className="h-4 ml-2"></CopyIcon>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem className="cursor-pointer">

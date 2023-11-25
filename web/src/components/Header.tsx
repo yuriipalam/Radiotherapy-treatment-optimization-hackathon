@@ -17,8 +17,8 @@ import {
 
 export default function Header() {
   return (
-    <>
-      <div className="container fixed z-50 bg-white shadow flex justify-between items-center gap-2 space-x-4 lg:space-x-6 py-2 px-4">
+    <div className="fixed z-50 right-0 top-0 left-0 shadow">
+      <div className="container  bg-white  flex justify-between items-center gap-2 space-x-4 lg:space-x-6 py-2 px-4">
         <div className="flex gap-4 items-center">
           <img width={100} src="/siemens-logo.png" alt="Logo" />
           <nav className="flex gap-4">
@@ -71,6 +71,6 @@ export default function Header() {
         </DropdownMenu>
       </div>
       <div className="border-b" />
-    </>
+    </div>
   );
 }
