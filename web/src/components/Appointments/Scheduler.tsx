@@ -10,16 +10,12 @@ import {
   MbscCalendarEvent,
   MbscEventcalendarView,
   setOptions,
+  Checkbox,
 } from "@mobiscroll/react";
 import "@mobiscroll/react/dist/css/mobiscroll.min.css";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { MbscResource } from "@mobiscroll/react";
 import useAppointmentsStore from "@/store/appointments/appointmentsStore.ts";
-import appointmentsFromAlgo from "@/store/appointments/appointmentsFromAlgo.ts";
-import AppointmentType from "@/store/appointments/appointmentType.ts";
-import getSerializedAppointments from "@/store/appointments/serializer.ts";
-// import appointmentsFromAlgo from "@/store/appointments/appointmentsFromAlgo.ts";
-
 
 const responsivePopup = {
   medium: {
@@ -47,56 +43,12 @@ const defaultEvents = [
     taj: "asdasd",
   },
 ];
-//   {
-//     start: new Date(now.getFullYear(), now.getMonth(), monday + 3, 15),
-//     end: new Date(now.getFullYear(), now.getMonth(), monday + 3, 17),
-//     title: "Henry Smith",
-//     resource: "TB2",
-//     id: "appointment-2",
-//   },
-//   {
-//     start: new Date(now.getFullYear(), now.getMonth(), monday + 2, 12),
-//     end: new Date(now.getFullYear(), now.getMonth(), monday + 2, 15, 30),
-//     title: "Viktor Nagy",
-//     resource: "VB1",
-//     id: "appointment-3",
-//   },
-//   {
-//     start: new Date(now.getFullYear(), now.getMonth(), monday + 3, 9),
-//     end: new Date(now.getFullYear(), now.getMonth(), monday + 3, 12),
-//     title: "Alexandra Molnar",
-//     resource: "VB2",
-//     id: "appointment-4",
-//   },
-//   {
-//     start: new Date(now.getFullYear(), now.getMonth(), monday + 3, 11),
-//     end: new Date(now.getFullYear(), now.getMonth(), monday + 3, 16),
-//     title: "Peter Kovacs",
-//     resource: "U",
-//     id: "appointment-5",
-//   },
-//   {
-//     start: new Date(now.getFullYear(), now.getMonth(), monday + 3, 11),
-//     end: new Date(now.getFullYear(), now.getMonth(), monday + 3, 13),
-//     title: "Stakeholder mtg.",
-//     resource: "TB2",
-//     id: "event-6",
-//   },
-// ];
 
 export default function Scheduler() {
-  const appointments = useAppointmentsStore((state) => state.appointments);
-  const [appointmentsFromAlgoState, setAppointmentsFromAlgoState] = useState<
-    AppointmentType[]
-  >([]);
+  const state = useAppointmentsStore();
+
   useEffect(() => {
-    const fetchData = async () => {
-      getSerializedAppointments().then((res: AppointmentType[]) => {
-        setAppointmentsFromAlgoState(res);
-        console.log(res)
-      });
-    };
-    fetchData();
+    state.fetch();
   }, []);
 
   const viewSettings = React.useMemo<MbscEventcalendarView>(() => {
@@ -112,7 +64,7 @@ export default function Scheduler() {
     };
   }, []);
 
-  const myResources = React.useMemo<MbscResource[]>(() => {
+  const resources = React.useMemo<MbscResource[]>(() => {
     return [
       {
         id: "TB1",
@@ -141,18 +93,33 @@ export default function Scheduler() {
       },
     ];
   }, []);
+  const [myResources, setResources] = React.useState(resources);
+  const [participants, setParticipants] = React.useState<{
+    [key: string]: boolean;
+  }>({
+    TB1: true,
+    TB2: true,
+    VB1: true,
+    VB2: true,
+    U: true,
+  });
+  const filter = React.useCallback(
+    (ev) => {
+      participants[ev.target.value] = ev.target.checked;
+      setParticipants({ ...participants });
+      console.log(participants);
+      setResources(resources.filter((r: any) => participants[r.id]));
+    },
+    [participants, resources],
+  );
 
   const [myEvents, setMyEvents] = React.useState<MbscCalendarEvent[]>(
-    // appointments,
-    // defaultEvents
-    // [appointments[0]]
-    appointmentsFromAlgoState
+    state.appointments,
   );
 
   useEffect(() => {
-    setMyEvents(appointmentsFromAlgoState);
-  }, [appointmentsFromAlgoState]);
-  console.log(myEvents);
+    setMyEvents(state.appointments);
+  }, [state.appointments]);
 
   const [tempEvent, setTempEvent] = React.useState<any>(null);
   const [isOpen, setOpen] = React.useState<boolean>(false);
@@ -160,7 +127,6 @@ export default function Scheduler() {
   const [anchor, setAnchor] = React.useState<any>(null);
   const [start, startRef] = React.useState<any>(null);
   const [end, endRef] = React.useState<any>(null);
-
   const [popupEventFullname, setFullname] = React.useState<string | undefined>(
     "",
   );
@@ -364,106 +330,151 @@ export default function Scheduler() {
   }
 
   return (
-    <div>
-      <Eventcalendar
-        view={viewSettings}
-        data={myEvents}
-        clickToCreate="double"
-        dragToCreate={true}
-        dragToMove={true}
-        dragToResize={true}
-        selectedDate={mySelectedDate}
-        resources={myResources}
-        onSelectedDateChange={onSelectedDateChange}
-        onEventClick={onEventClick}
-        onEventCreated={onEventCreated}
-        onEventDeleted={onEventDeleted}
-        onEventUpdated={onEventUpdated}
-        height={1500}
-        width={1500}
-        extendDefaultEvent={newEventData}
-        renderScheduleEventContent={(event) => {
-          // @ts-ignore
-          return (
-            <div className="custom-event-content">
-              <div className="event-title">{event.title}</div>
-              <div className="font-normal">{event.original.region}</div>
-            </div>
-          );
-        }}
-      />
-      <Popup
-        display="bottom"
-        fullScreen={true}
-        contentPadding={false}
-        headerText={headerText}
-        anchor={anchor}
-        buttons={popupButtons}
-        isOpen={isOpen}
-        onClose={onClose}
-        responsive={responsivePopup}
-      >
-        <div className="mbsc-form-group">
-          <Input
-            label="Full name"
-            value={
-              popupEventFullname === "New appointment" ? "" : popupEventFullname
-            }
-            onChange={fullnameChange}
-          />
-          <Input
-            label="Taj Number"
-            value={popupEventTajNumber}
-            onChange={tajNumberChange}
-          />
-          <Input
-            label="Region"
-            value={popupEventRegion}
-            onChange={regionChange}
-          />
+    <>
+      <div className="flex items-center flex-col justify-center my-12">
+        <p className="text-xl mb-4">Show/hide needed machines</p>
+        <div className="flex items-center">
+        <Checkbox
+          className="before:hidden after:hidden"
+          defaultChecked={participants["TB1"]}
+          onChange={filter}
+          value="TB1"
+          label="TrueBeam 1"
+        />
+        <Checkbox
+          className="before:hidden after:hidden"
+          defaultChecked={participants["TB2"]}
+          onChange={filter}
+          value="TB2"
+          label="TrueBeam 2"
+        />
+        <Checkbox
+          className="before:hidden after:hidden"
+          defaultChecked={participants["VB1"]}
+          onChange={filter}
+          value="VB1"
+          label="VitalBeam 1"
+        />
+        <Checkbox
+          className="before:hidden after:hidden"
+          defaultChecked={participants["VB2"]}
+          onChange={filter}
+          value="VB2"
+          label="VitalBeam 2"
+        />
+        <Checkbox
+          className="before:hidden after:hidden"
+          defaultChecked={participants["U"]}
+          onChange={filter}
+          value="U"
+          label="Unique"
+        />
         </div>
-        <div className="mbsc-form-group">
-          <Input ref={startRef} label="Starts" />
-          <Input ref={endRef} label="Ends" />
-          <Datepicker
-            select="range"
-            controls={controls}
-            touchUi={true}
-            startInput={start}
-            endInput={end}
-            showRangeLabels={false}
-            responsive={respSetting}
-            onChange={dateChange}
-            value={popupEventDate}
-          />
-          <SegmentedGroup onChange={statusChange}>
-            <SegmentedItem
-              value="notify"
-              checked={popupEventStatus === "notify"}
-            >
-              Notify patient
-            </SegmentedItem>
-            <SegmentedItem
-              value="dont-notify"
-              checked={popupEventStatus === "dont-notify"}
-            >
-              Don't notify
-            </SegmentedItem>
-          </SegmentedGroup>
-          {isEdit && (
-            <div className="mbsc-button-group">
-              <Button
-                className="mbsc-button-block"
-                color="danger"
-                variant="outline"
-                onClick={onDeleteClick}
+      </div>
+      <>
+        <Eventcalendar
+          view={viewSettings}
+          data={myEvents}
+          clickToCreate="double"
+          dragToCreate={true}
+          dragToMove={true}
+          dragToResize={true}
+          selectedDate={mySelectedDate}
+          resources={myResources}
+          onSelectedDateChange={onSelectedDateChange}
+          onEventClick={onEventClick}
+          onEventCreated={onEventCreated}
+          onEventDeleted={onEventDeleted}
+          onEventUpdated={onEventUpdated}
+          height={2000}
+          width={2000}
+          className="px-5"
+          extendDefaultEvent={newEventData}
+          renderScheduleEventContent={(event) => {
+            // @ts-ignore
+            return (
+              <div className="custom-event-content">
+                <div className="event-title">{event.title}</div>
+                <div className="font-normal">{event.original.region}</div>
+              </div>
+            );
+          }}
+        />
+        <Popup
+          display="bottom"
+          fullScreen={true}
+          contentPadding={false}
+          headerText={headerText}
+          anchor={anchor}
+          buttons={popupButtons}
+          isOpen={isOpen}
+          onClose={onClose}
+          responsive={responsivePopup}
+        >
+          <div className="mbsc-form-group">
+            <Input
+              label="Full name"
+              value={
+                popupEventFullname === "New appointment"
+                  ? ""
+                  : popupEventFullname
+              }
+              onChange={fullnameChange}
+            />
+            <Input
+              label="Taj Number"
+              value={popupEventTajNumber}
+              onChange={tajNumberChange}
+            />
+            <Input
+              label="Region"
+              value={popupEventRegion}
+              onChange={regionChange}
+            />
+          </div>
+          <div className="mbsc-form-group">
+            <Input ref={startRef} label="Starts" />
+            <Input ref={endRef} label="Ends" />
+            <Datepicker
+              select="range"
+              controls={controls}
+              touchUi={true}
+              startInput={start}
+              endInput={end}
+              showRangeLabels={false}
+              responsive={respSetting}
+              onChange={dateChange}
+              value={popupEventDate}
+            />
+            <SegmentedGroup onChange={statusChange}>
+              <SegmentedItem
+                value="notify"
+                checked={popupEventStatus === "notify"}
               >
-                Delete appointment
-              </Button>
-            </div>
-          )}
-        </div>
-      </Popup>
-    </div>
+                Notify patient
+              </SegmentedItem>
+              <SegmentedItem
+                value="dont-notify"
+                checked={popupEventStatus === "dont-notify"}
+              >
+                Don't notify
+              </SegmentedItem>
+            </SegmentedGroup>
+            {isEdit && (
+              <div className="mbsc-button-group">
+                <Button
+                  className="mbsc-button-block"
+                  color="danger"
+                  variant="outline"
+                  onClick={onDeleteClick}
+                >
+                  Delete appointment
+                </Button>
+              </div>
+            )}
+          </div>
+        </Popup>
+      </>
+    </>
   );
 }
