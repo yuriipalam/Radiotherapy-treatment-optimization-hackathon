@@ -20,7 +20,7 @@ export function LoginForm({ className, ...props }: UserAuthFormProps) {
 
     setTimeout(() => {
       setIsLoading(false);
-      navigate("/patients");
+      navigate("/");
     }, 1000);
   }
 
