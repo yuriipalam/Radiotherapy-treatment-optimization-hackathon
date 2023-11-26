@@ -1,10 +1,12 @@
 import { create } from "zustand";
 import Appointment from "@/store/appointments/appointmentType.ts";
 import getSerializedAppointments from "@/store/appointments/serializer.ts";
+import { Patient } from "@/store/patients/patientType.ts";
 
 interface AppointmentsStore {
   fetch: () => void;
   appointments: Appointment[];
+  patients: Patient[];
   addAppointment: (appointment: Appointment) => void;
   removeAppointment: (id: string) => void;
   changeAppointment: (appointment: Appointment) => void;
@@ -13,10 +15,15 @@ interface AppointmentsStore {
 
 const useAppointmentsStore = create<AppointmentsStore>((set, get) => ({
   appointments: [],
+  patients: [],
   fetch: async () => {
     const response = await fetch("http://127.0.0.1:5000/api/appointments");
     const data = await response.json();
-    set({ appointments: getSerializedAppointments(data) });
+    const serializedData = getSerializedAppointments(data);
+    set({
+      appointments: serializedData.appointments,
+      patients: serializedData.patients,
+    });
     console.log("fetch", get().appointments);
   },
   addAppointment: (appointment: Appointment) =>
