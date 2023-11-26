@@ -2,7 +2,7 @@ import { create } from "zustand";
 import Appointment from "@/store/appointments/appointmentType.ts";
 import getSerializedAppointments from "@/store/appointments/serializer.ts";
 import { Patient } from "@/store/patients/patientType.ts";
-import * as process from "process";
+// import * as process from "process";
 
 interface AppointmentsStore {
   fetch: () => void;
@@ -18,7 +18,8 @@ const useAppointmentsStore = create<AppointmentsStore>((set, get) => ({
   appointments: [],
   patients: [],
   fetch: async () => {
-    const response = await fetch(`${process.env.API_URL}/api/appointments`);
+    console.log(import.meta.env.VITE_API_URL);
+    const response = await fetch(`http://127.0.0.1:5000/api/appointments`);
     const data = await response.json();
     const serializedData = getSerializedAppointments(data);
     set({

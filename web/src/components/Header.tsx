@@ -34,7 +34,7 @@ export default function Header() {
               Dashboard
             </Link>
             <Link
-              to="/dashboard"
+              to="/"
               className="text-sm text-slate-800 font-medium transition-colors hover:text-primary"
             >
               Patients
