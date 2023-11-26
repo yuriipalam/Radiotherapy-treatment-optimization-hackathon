@@ -1,12 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.tsx";
 import "@/styles/globals.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import RootLayout from "@/layout.tsx";
 import Patients from "@/pages/Patients.tsx";
 import Appointments from "@/pages/Appointments.tsx";
 import { Login } from "@/pages/Login.tsx";
+import { Dashboard } from "@/pages/Dashboard.tsx";
 
 const router = createBrowserRouter([
   {
@@ -15,12 +15,8 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <App />,
-        index: true,
-      },
-      {
-        path: "/patients",
         element: <Patients />,
+        index: true,
       },
       {
         path: "/appointments",
@@ -30,8 +26,11 @@ const router = createBrowserRouter([
         path: "login",
         element: <Login />,
       },
+      {
+        path: "dashboard",
+        element: <Dashboard />,
+      },
     ],
-
   },
   // {
   //   path: "/contacts/:id",

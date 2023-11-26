@@ -28,10 +28,10 @@ export default function Header() {
           </Link>
           <nav className="flex gap-4">
             <Link
-              to="/patients"
+              to="/dashboard"
               className="text-sm text-slate-800 font-medium transition-colors hover:text-primary"
             >
-              Patients
+              Dashboard
             </Link>
             <Link
               to="/appointments"
