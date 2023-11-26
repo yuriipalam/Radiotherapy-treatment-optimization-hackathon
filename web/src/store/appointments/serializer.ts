@@ -1,4 +1,5 @@
 import AppointmentType from "@/store/appointments/appointmentType.ts";
+import { Patient } from "@/store/patients/patientType.ts";
 
 const resp = await fetch("http://127.0.0.1:5000/api/appointments");
 const data = await resp.json();
@@ -14,12 +15,13 @@ export default function getSerializedAppointments(data: any) {
   };
 
   const serializedAppointments: AppointmentType[] = [];
+  const serializedPatients: Patient[] = [];
   for (let i = 0; i < data.length; i++) {
     const resource = data[i][0];
     let skippedWeekends = 0;
     for (let j = 0; j < data[i][1].length; j++) {
       if (j > 0 && j % 5 === 0) {
-        skippedWeekends+=2;
+        skippedWeekends += 2;
       }
       if (data[i][1][j] === null) continue;
       const appointment = {
@@ -33,7 +35,26 @@ export default function getSerializedAppointments(data: any) {
       };
       serializedAppointments.push(appointment);
     }
+    const patient = {
+      fullname: data[i][2],
+      tajNumber: data[i][3],
+      numberOfFractions: Number(data[i][5]),
+      region: data[i][4],
+      birthDate: `${
+        Math.floor(Math.random() * (2000 - 1950 + 1)) + 1950
+      }-${String(Math.floor(Math.random() * 12) + 1).padStart(2, "0")}-${String(
+        Math.floor(Math.random() * 28) + 1,
+      ).padStart(2, "0")}`,
+      weight: Math.floor(Math.random() * 100 + 50),
+      height: Math.floor(Math.random() * 100 + 100),
+      sessionsLeft: Number(data[i][5]),
+      inpatient: Math.random() < 0.1,
+    };
+    serializedPatients.push(patient);
   }
 
-  return serializedAppointments;
+  return {
+    appointments: serializedAppointments,
+    patients: serializedPatients,
+  };
 }

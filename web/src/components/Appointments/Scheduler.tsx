@@ -16,6 +16,7 @@ import "@mobiscroll/react/dist/css/mobiscroll.min.css";
 import React, { useEffect } from "react";
 import { MbscResource } from "@mobiscroll/react";
 import useAppointmentsStore from "@/store/appointments/appointmentsStore.ts";
+import usePatientsStore from "@/store/patients/patientsStore.ts";
 
 const responsivePopup = {
   medium: {
@@ -30,26 +31,9 @@ setOptions({
   theme: "ios",
   themeVariant: "light",
 });
-const now = new Date();
-const day = now.getDay();
-const monday = now.getDate() - day + (day == 0 ? -6 : 1);
-const defaultEvents = [
-  {
-    start: new Date(now.getFullYear(), now.getMonth(), monday + 1, 11),
-    end: new Date(now.getFullYear(), now.getMonth(), monday + 1, 12, 30),
-    title: "John Doe",
-    resource: "TB1",
-    id: "appointment-1",
-    taj: "asdasd",
-  },
-];
 
 export default function Scheduler() {
   const state = useAppointmentsStore();
-
-  useEffect(() => {
-    state.fetch();
-  }, []);
 
   const viewSettings = React.useMemo<MbscEventcalendarView>(() => {
     return {
@@ -334,41 +318,41 @@ export default function Scheduler() {
       <div className="flex items-center flex-col justify-center my-12">
         <p className="text-xl mb-4">Show/hide needed machines</p>
         <div className="flex items-center">
-        <Checkbox
-          className="before:hidden after:hidden"
-          defaultChecked={participants["TB1"]}
-          onChange={filter}
-          value="TB1"
-          label="TrueBeam 1"
-        />
-        <Checkbox
-          className="before:hidden after:hidden"
-          defaultChecked={participants["TB2"]}
-          onChange={filter}
-          value="TB2"
-          label="TrueBeam 2"
-        />
-        <Checkbox
-          className="before:hidden after:hidden"
-          defaultChecked={participants["VB1"]}
-          onChange={filter}
-          value="VB1"
-          label="VitalBeam 1"
-        />
-        <Checkbox
-          className="before:hidden after:hidden"
-          defaultChecked={participants["VB2"]}
-          onChange={filter}
-          value="VB2"
-          label="VitalBeam 2"
-        />
-        <Checkbox
-          className="before:hidden after:hidden"
-          defaultChecked={participants["U"]}
-          onChange={filter}
-          value="U"
-          label="Unique"
-        />
+          <Checkbox
+            className="before:hidden after:hidden"
+            defaultChecked={participants["TB1"]}
+            onChange={filter}
+            value="TB1"
+            label="TrueBeam 1"
+          />
+          <Checkbox
+            className="before:hidden after:hidden"
+            defaultChecked={participants["TB2"]}
+            onChange={filter}
+            value="TB2"
+            label="TrueBeam 2"
+          />
+          <Checkbox
+            className="before:hidden after:hidden"
+            defaultChecked={participants["VB1"]}
+            onChange={filter}
+            value="VB1"
+            label="VitalBeam 1"
+          />
+          <Checkbox
+            className="before:hidden after:hidden"
+            defaultChecked={participants["VB2"]}
+            onChange={filter}
+            value="VB2"
+            label="VitalBeam 2"
+          />
+          <Checkbox
+            className="before:hidden after:hidden"
+            defaultChecked={participants["U"]}
+            onChange={filter}
+            value="U"
+            label="Unique"
+          />
         </div>
       </div>
       <>

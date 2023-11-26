@@ -15,7 +15,6 @@ import usePatientsStore from "@/store/patients/patientsStore.ts";
 
 export const PatientsTable = () => {
   const [search, setSearch] = useState("");
-  console.log(search);
   const patients = usePatientsStore((state) => state.patients);
   const [patientsSearched, setPatientsSearched] = useState(patients);
 
