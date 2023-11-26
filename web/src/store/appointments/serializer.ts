@@ -1,9 +1,6 @@
 import AppointmentType from "@/store/appointments/appointmentType.ts";
 import { Patient } from "@/store/patients/patientType.ts";
 
-const resp = await fetch("http://127.0.0.1:5000/api/appointments");
-const data = await resp.json();
-
 export default function getSerializedAppointments(data: any) {
   const getDateFromMinutes = (minutes: number, step: number) => {
     const currentDate = new Date().setHours(0, 0, 0, 0);

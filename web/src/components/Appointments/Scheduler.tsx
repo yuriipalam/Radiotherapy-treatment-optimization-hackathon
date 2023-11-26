@@ -379,7 +379,7 @@ export default function Scheduler() {
             return (
               <div className="custom-event-content">
                 <div className="event-title">{event.title}</div>
-                <div className="font-normal">{event.original.region}</div>
+                <div className="font-normal">{event.original?.region}</div>
               </div>
             );
           }}

@@ -30,5 +30,9 @@ module.exports = {
     "react/react-in-jsx-scope": "off",
     "react/no-unescaped-entities": "off",
     "@typescript-eslint/ban-ts-comment": "off",
+    'no-unused-vars': 'off',
+    "no-explicit-any": "off",
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
+
   },
 }
