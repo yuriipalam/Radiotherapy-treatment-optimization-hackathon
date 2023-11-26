@@ -12,8 +12,14 @@ import {
   setOptions,
 } from "@mobiscroll/react";
 import "@mobiscroll/react/dist/css/mobiscroll.min.css";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { MbscResource } from "@mobiscroll/react";
+import useAppointmentsStore from "@/store/appointments/appointmentsStore.ts";
+import appointmentsFromAlgo from "@/store/appointments/appointmentsFromAlgo.ts";
+import AppointmentType from "@/store/appointments/appointmentType.ts";
+import getSerializedAppointments from "@/store/appointments/serializer.ts";
+// import appointmentsFromAlgo from "@/store/appointments/appointmentsFromAlgo.ts";
+
 
 const responsivePopup = {
   medium: {
@@ -28,51 +34,71 @@ setOptions({
   theme: "ios",
   themeVariant: "light",
 });
-
 const now = new Date();
 const day = now.getDay();
 const monday = now.getDate() - day + (day == 0 ? -6 : 1);
-
 const defaultEvents = [
   {
     start: new Date(now.getFullYear(), now.getMonth(), monday + 1, 11),
     end: new Date(now.getFullYear(), now.getMonth(), monday + 1, 12, 30),
     title: "John Doe",
     resource: "TB1",
-  },
-  {
-    start: new Date(now.getFullYear(), now.getMonth(), monday + 3, 15),
-    end: new Date(now.getFullYear(), now.getMonth(), monday + 3, 17),
-    title: "Henry Smith",
-    resource: "TB2",
-  },
-  {
-    start: new Date(now.getFullYear(), now.getMonth(), monday + 2, 12),
-    end: new Date(now.getFullYear(), now.getMonth(), monday + 2, 15, 30),
-    title: "Viktor Nagy",
-    resource: "VB1",
-  },
-  {
-    start: new Date(now.getFullYear(), now.getMonth(), monday + 3, 9),
-    end: new Date(now.getFullYear(), now.getMonth(), monday + 3, 12),
-    title: "Alexandra Molnar",
-    resource: "VB2",
-  },
-  {
-    start: new Date(now.getFullYear(), now.getMonth(), monday + 3, 11),
-    end: new Date(now.getFullYear(), now.getMonth(), monday + 3, 16),
-    title: "Peter Kovacs",
-    resource: "U",
-  },
-  {
-    start: new Date(now.getFullYear(), now.getMonth(), monday + 3, 11),
-    end: new Date(now.getFullYear(), now.getMonth(), monday + 3, 13),
-    title: "Stakeholder mtg.",
-    resource: "TB2",
+    id: "appointment-1",
+    taj: "asdasd",
   },
 ];
+//   {
+//     start: new Date(now.getFullYear(), now.getMonth(), monday + 3, 15),
+//     end: new Date(now.getFullYear(), now.getMonth(), monday + 3, 17),
+//     title: "Henry Smith",
+//     resource: "TB2",
+//     id: "appointment-2",
+//   },
+//   {
+//     start: new Date(now.getFullYear(), now.getMonth(), monday + 2, 12),
+//     end: new Date(now.getFullYear(), now.getMonth(), monday + 2, 15, 30),
+//     title: "Viktor Nagy",
+//     resource: "VB1",
+//     id: "appointment-3",
+//   },
+//   {
+//     start: new Date(now.getFullYear(), now.getMonth(), monday + 3, 9),
+//     end: new Date(now.getFullYear(), now.getMonth(), monday + 3, 12),
+//     title: "Alexandra Molnar",
+//     resource: "VB2",
+//     id: "appointment-4",
+//   },
+//   {
+//     start: new Date(now.getFullYear(), now.getMonth(), monday + 3, 11),
+//     end: new Date(now.getFullYear(), now.getMonth(), monday + 3, 16),
+//     title: "Peter Kovacs",
+//     resource: "U",
+//     id: "appointment-5",
+//   },
+//   {
+//     start: new Date(now.getFullYear(), now.getMonth(), monday + 3, 11),
+//     end: new Date(now.getFullYear(), now.getMonth(), monday + 3, 13),
+//     title: "Stakeholder mtg.",
+//     resource: "TB2",
+//     id: "event-6",
+//   },
+// ];
 
-export default function Calendar() {
+export default function Scheduler() {
+  const appointments = useAppointmentsStore((state) => state.appointments);
+  const [appointmentsFromAlgoState, setAppointmentsFromAlgoState] = useState<
+    AppointmentType[]
+  >([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      getSerializedAppointments().then((res: AppointmentType[]) => {
+        setAppointmentsFromAlgoState(res);
+        console.log(res)
+      });
+    };
+    fetchData();
+  }, []);
+
   const viewSettings = React.useMemo<MbscEventcalendarView>(() => {
     return {
       schedule: {
@@ -116,8 +142,17 @@ export default function Calendar() {
     ];
   }, []);
 
-  const [myEvents, setMyEvents] =
-    React.useState<MbscCalendarEvent[]>(defaultEvents);
+  const [myEvents, setMyEvents] = React.useState<MbscCalendarEvent[]>(
+    // appointments,
+    // defaultEvents
+    // [appointments[0]]
+    appointmentsFromAlgoState
+  );
+
+  useEffect(() => {
+    setMyEvents(appointmentsFromAlgoState);
+  }, [appointmentsFromAlgoState]);
+  console.log(myEvents);
 
   const [tempEvent, setTempEvent] = React.useState<any>(null);
   const [isOpen, setOpen] = React.useState<boolean>(false);
@@ -170,7 +205,7 @@ export default function Calendar() {
     myEvents,
     popupEventDate,
     popupEventFullname,
-    popupEventRegion,
+    popupEventTajNumber,
     popupEventRegion,
     popupEventStatus,
     tempEvent,
@@ -344,7 +379,18 @@ export default function Calendar() {
         onEventCreated={onEventCreated}
         onEventDeleted={onEventDeleted}
         onEventUpdated={onEventUpdated}
+        height={1500}
+        width={1500}
         extendDefaultEvent={newEventData}
+        renderScheduleEventContent={(event) => {
+          // @ts-ignore
+          return (
+            <div className="custom-event-content">
+              <div className="event-title">{event.title}</div>
+              <div className="font-normal">{event.original.region}</div>
+            </div>
+          );
+        }}
       />
       <Popup
         display="bottom"

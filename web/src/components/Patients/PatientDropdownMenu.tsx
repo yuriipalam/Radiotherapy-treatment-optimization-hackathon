@@ -12,8 +12,8 @@ import { Calendar, CheckCircle } from "lucide-react";
 import { EditPatientDataPopup } from "@/components/Patients/EditPatientDataPopup.tsx";
 import { useToast } from "@/components/ui/use-toast";
 
-import { Patient } from "@/store/patients.ts";
-import usePatientsStore from "@/store/store.tsx";
+import usePatientsStore from "@/store/patients/patientsStore.ts";
+import {Patient} from "@/store/patients/patientType.ts";
 
 interface Props {
   patient: Patient;
