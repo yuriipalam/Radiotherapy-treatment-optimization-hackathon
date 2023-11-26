@@ -19,7 +19,7 @@ const useAppointmentsStore = create<AppointmentsStore>((set, get) => ({
   patients: [],
   fetch: async () => {
     console.log(import.meta.env.VITE_API_URL);
-    const response = await fetch(`http://127.0.0.1:5000/api/appointments`);
+    const response = await fetch(`${process.env.VITE_API_URL}/api/appointments`);
     const data = await response.json();
     const serializedData = getSerializedAppointments(data);
     set({
