@@ -1,9 +1,5 @@
-import Calendar from "../components/Appointments/Calendar.tsx";
+import Scheduler from "../components/Appointments/Scheduler.tsx";
 
 export default function Appointments() {
-  return (
-    <div className="container">
-      <Calendar />
-    </div>
-  );
+  return <Scheduler />;
 }

@@ -12,9 +12,9 @@ import {
 import { Input } from "@/components/ui/input.tsx";
 import { Label } from "@/components/ui/label.tsx";
 import { Checkbox } from "@/components/ui/checkbox.tsx";
-import usePatientsStore from "@/store/store.tsx";
-import { Patient } from "@/store/patients.ts";
+import usePatientsStore from "@/store/patients/patientsStore.ts";
 import { useState } from "react";
+import {Patient} from "@/store/patients/patientType.ts";
 
 export function AddPatientDialog() {
   const addPatient = usePatientsStore((state) => state.addPatient);

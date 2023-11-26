@@ -70,5 +70,5 @@
 main {
     flex: 1;
     margin-top: 72px;
-    @apply p-4;
+    /*@apply p-4;*/
 }

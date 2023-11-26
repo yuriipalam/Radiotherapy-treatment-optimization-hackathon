@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 import { Checkbox } from "@/components/ui/checkbox.tsx";
 import { PatientDropdownMenu } from "@/components/Patients/PatientDropdownMenu.tsx";
 import { AddPatientDialog } from "@/components/Patients/AddPatientDialog.tsx";
-import usePatientsStore from "@/store/store.tsx";
+import usePatientsStore from "@/store/patients/patientsStore.ts";
 
 export const PatientsTable = () => {
   const [search, setSearch] = useState("");

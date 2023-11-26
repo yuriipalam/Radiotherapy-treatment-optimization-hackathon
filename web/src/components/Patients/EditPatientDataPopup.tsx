@@ -9,8 +9,8 @@ import {
 } from "@/components/ui/popover.tsx";
 import { Pencil2Icon } from "@radix-ui/react-icons";
 
-import { Patient } from "@/store/patients.ts";
-import usePatientsStore from "@/store/store.tsx";
+import usePatientsStore from "@/store/patients/patientsStore.ts";
+import {Patient} from "@/store/patients/patientType.ts";
 
 interface Props {
   patient: Patient;
